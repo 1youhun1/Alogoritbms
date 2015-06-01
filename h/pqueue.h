@@ -1,3 +1,4 @@
+/*pqueue.h 优先级队列，用堆实现*/
 #ifndef PQUEUE_H
 #define PQUEUE_H
 
