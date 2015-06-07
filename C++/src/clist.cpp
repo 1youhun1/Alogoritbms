@@ -1,4 +1,4 @@
-/*list.c*/
+/*clist.c*/
 #include <stdlib.h>
 #include <string.h>
 

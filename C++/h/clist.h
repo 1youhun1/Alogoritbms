@@ -1,4 +1,4 @@
-/*list.h*/
+/*clist.h µ•¡¥±Ì¿‡*/
 #ifndef CLIST_H
 #define CLIST_H
 
