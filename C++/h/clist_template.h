@@ -1,4 +1,4 @@
-/*clist_template.h*/
+/*clist_template.h 用模板实现单向链表*/
 #ifndef CLIST_TEMPLATE_H
 #define CLIST_TEMPLATE_H
 

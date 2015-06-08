@@ -43,7 +43,7 @@ void Clist::List_Destroy()
 
 int Clist::List_Ins_Next(ListElmt *element, const void *data)
 {
-	ListElmt *new_element = new ListElmt;
+	ListElmt *new_element = new ListElmt{ 0 };
 
 	new_element->data = (void *)data;
 	if (NULL == element)
