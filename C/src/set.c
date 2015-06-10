@@ -50,7 +50,7 @@ int Set_Union(Set *setu, const Set *set1, const Set *set2)
     ListElmt *member;
     void     *data;
 
-    Set_Init(setu, set1->match, NULL);
+	Set_Init(setu, set1->match, set1->destroy);
 
     /*先将Set1中元素拷贝到Setu里*/
     for (member = List_Head(set1); member != NULL; member = List_Next(member))
@@ -88,7 +88,7 @@ int Set_Intersection(Set *seti, const Set *set1, const Set *set2)
     ListElmt *member;
     void     *data;
 
-    Set_Init(seti, set1->match, NULL);
+	Set_Init(seti, set1->match, set1->destroy);
 
     /* 同时存在两个集合的元素才插入到Seti */
     for (member = List_Head(set1); member != NULL; member = List_Next(member))
@@ -112,7 +112,7 @@ int Set_Difference(Set *setd, const Set *set1, const Set *set2)
     ListElmt *member;
     void     *data;
 
-    Set_Init(setd, set1->match, NULL);
+	Set_Init(setd, set1->match, set1->destroy);
 
     /* 存在set1，但不存在Set2的元素才插入Setd */
     for (member = List_Head(set1); member != NULL; member = List_Next(member))
@@ -141,7 +141,7 @@ int Set_is_Member(const Set *set, const void *data)
             return TRUE;
     }
 
-    return OK;
+	return FALSE;
 }
 
 int Set_is_Subset(const Set *set1, const Set *set2)
@@ -153,7 +153,7 @@ int Set_is_Subset(const Set *set1, const Set *set2)
     {
         if (!Set_is_Member(set2, List_Data(member)))
         {
-            return OK;
+			return FALSE;
         }
     }
 
@@ -164,7 +164,7 @@ int Set_is_Subset(const Set *set1, const Set *set2)
 int Set_is_Equal(const Set *set1, const Set *set2)
 {
     if (Set_Size(set1) != Set_Size(set2))
-        return OK;
+		return FALSE;
 
     return Set_is_Subset(set1, set2);
 }
