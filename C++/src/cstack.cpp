@@ -1,4 +1,4 @@
-/*cstack.c*/
+/*cstack.cpp*/
 #include <stdlib.h>
 
 #include "clist.h"

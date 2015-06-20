@@ -17,7 +17,6 @@ public:
 	void* Stack_Peek() {
 		(this->head == NULL ? NULL : this->head->data);
 	}
-private:
 
 };
 

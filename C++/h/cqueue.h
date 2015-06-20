@@ -14,7 +14,7 @@ public:
 public:
 	int Queue_Enqueue(const void *data);
 	int Queue_Dequeue(void **data);
-	void* Queue_Peek() { (this->head == NULL ? NULL : this->head->data); }
+	void* Queue_Peek() { return (this->head == NULL ? NULL : this->head->data); }
 };
 
 #endif

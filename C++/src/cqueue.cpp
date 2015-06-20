@@ -1,4 +1,4 @@
-/*cqueue.c*/
+/*cqueue.cpp*/
 #include <stdlib.h>
 
 #include "clist.h"
