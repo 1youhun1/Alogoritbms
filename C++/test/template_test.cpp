@@ -6,6 +6,8 @@
 #include "..\h\cdlist_template.h"
 #include "..\h\cqueue_template.h"
 #include "..\h\cstack_template.h"
+#include "..\h\cset_template.h"
+#include "..\h\cchtbl_template.h"
 #include "template_test.h"
 
 using namespace std;

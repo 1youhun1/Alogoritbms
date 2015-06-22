@@ -12,8 +12,8 @@ public:
 	CCHTbl(void);
 	~CCHTbl(void);
 public:
-	int  Chtbl_Init(int buckets, int(*h)(const void *key), int
-		(*match)(const void *key1, const void *key2), void(*destroy)(void *data));
+	int  Chtbl_Init(int buckets, int(*h)(const void *key),
+		int (*match)(const void *key1, const void *key2), void(*destroy)(void *data));
 	void Chtbl_Destroy();
 	int  Chtbl_Insert(const void *data);
 	int  Chtbl_Remove(void **data);

@@ -1,28 +1,58 @@
-/*cchtbl.cpp*/
+/* cchtbl_template.h */
+#ifndef CCHTBL_TEMPLATE_H
+#define CCHTBL_TEMPLATE_H
+
 #include <stdlib.h>
-#include <string.h>
+#include "clist_template.h"
 
-#include "..\h\cchtbl.h"
+template<class T>
+class CCHTbl_Template
+{
+public:
+	CCHTbl_Template(void);
+	~CCHTbl_Template(void);
+public:
+	int  Chtbl_Init(int buckets, int(*h)(const T *key),
+		int (*match)(const T *key1, const T *key2), void(*destroy)(T *data));
+	void Chtbl_Destroy();
+	int  Chtbl_Insert(const T *data);
+	int  Chtbl_Remove(T **data);
+	int  Chtbl_Lookup(T **data);
 
-CCHTbl::CCHTbl()
+	int(*h)(const T *key);
+	int(*match)(const T *key1, const T *key2);
+	void(*destroy)(T *data);
+	int Chtbl_Size() const { return size; }
+
+public:
+	Clist_Template<T> *table;
+private:
+	int buckets;  //hash链分配桶的个数
+	int size;
+};
+
+template<class T>
+CCHTbl_Template<T>::CCHTbl_Template()
 {
 	size = 0;
 	buckets = 0;
 	table = NULL;
 }
 
-CCHTbl::~CCHTbl()
+template<class T>
+CCHTbl_Template<T>::~CCHTbl_Template()
 {
 
 }
 
-int  CCHTbl::Chtbl_Init(int buckets, int(*h)(const void *key),
-	int (*match)(const void *key1, const void *key2), void(*destroy)(void *data))
+template<class T>
+int  CCHTbl_Template<T>::Chtbl_Init(int buckets, int(*h)(const T *key),
+	int (*match)(const T *key1, const T *key2), void(*destroy)(T *data))
 {
 	int i;
 
 	//申请存放桶的数组
-	this->table = new Clist[buckets];
+	this->table = new Clist[buckets] {0};
 	if (NULL == this->table)
 		return -1;
 
@@ -41,7 +71,8 @@ int  CCHTbl::Chtbl_Init(int buckets, int(*h)(const void *key),
 	return 0;
 }
 
-void CCHTbl::Chtbl_Destroy()
+template<class T>
+void CCHTbl_Template<T>::Chtbl_Destroy()
 {
 	int i;
 
@@ -52,20 +83,21 @@ void CCHTbl::Chtbl_Destroy()
 	}
 
 	//释放存储每个桶的数组的内存
-	delete [] this->table;
-	memset(this, 0, sizeof(CCHTbl));
+	delete[] this->table;
+	memset(this, 0, sizeof(CCHTbl_Template));
 
 	return;
 }
 
-int  CCHTbl::Chtbl_Insert(const void *data)
+template<class T>
+int  CCHTbl_Template<T>::Chtbl_Insert(const T *data)
 {
-	void *temp = NULL;
+	T *temp = NULL;
 	int  bucket = 0;
 	int  result = 0;
 
 	/* 如果数据已存在，则返回*/
-	temp = (void *)data;
+	temp = (T *)data;
 	if (0 == this->Chtbl_Lookup(&temp))
 		return 0;
 
@@ -79,7 +111,8 @@ int  CCHTbl::Chtbl_Insert(const void *data)
 	return result;
 }
 
-int  CCHTbl::Chtbl_Remove(void **data)
+template<class T>
+int  CCHTbl_Template<T>::Chtbl_Remove(T **data)
 {
 	ListElmt *element = NULL;
 	ListElmt *prev = NULL;  //暂存前一项元素的内容，便于释放list
@@ -111,7 +144,8 @@ int  CCHTbl::Chtbl_Remove(void **data)
 	return -1;
 }
 
-int  CCHTbl::Chtbl_Lookup(void **data)
+template<class T>
+int  CCHTbl_Template<T>::Chtbl_Lookup(T **data)
 {
 	ListElmt *element = NULL;
 	ListElmt *start_element = NULL;
@@ -134,3 +168,5 @@ int  CCHTbl::Chtbl_Lookup(void **data)
 	//未查找到数据
 	return -1;
 }
+
+#endif

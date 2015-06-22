@@ -1,11 +1,40 @@
-/*cset.cpp*/
+/*cset_template.h*/
+#ifndef CSET_TEMPLATE_H
+#define CSET_TEMPLATE_H
+
 #include <stdlib.h>
-#include <windows.h>
-#include "..\h\clist.h"
-#include "..\h\cset.h"
+#include "clist_template.h"
 
+template<class T>
+class CSet_Template : public Clist_Template<T>
+{
+public:
+	CSet_Template();
+	~CSet_Template();
 
-CSet::CSet()
+public:
+	void Set_Init(int(*match)(const T *key1, const T *key2),
+		void(*destroy)(T *data));
+
+	int Set_Insert(const T *data);
+	int Set_Remove(T **data);
+	int Set_Union(const CSet_Template *set1, const CSet_Template *set2); //求并集
+	int Set_Intersection(const CSet_Template *set1, const CSet_Template *set2); //求交集
+	int Set_Difference(const CSet_Template *set1, const CSet_Template *set2); //求差集	
+
+public:
+	int Set_is_Subset(const CSet_Template *set);
+	int Set_is_Equal(const CSet_Template *set);
+	int Set_is_Member(const T *data) const;
+
+public:
+	int Set_Size() const { return this->size; }
+	void Set_Destroy() { this->List_Destroy(); }
+
+};
+
+template<class T>
+CSet_Template<T>::CSet_Template()
 {
 	this->size = 0;
 	this->head = NULL;
@@ -15,19 +44,22 @@ CSet::CSet()
 	return;
 }
 
-CSet::~CSet()
+template<class T>
+CSet_Template<T>::~CSet_Template()
 {
 }
 
-void CSet::Set_Init(int(*match)(const void *key1, const void *key2),
-	void(*destroy)(void *data))
+template<class T>
+void CSet_Template<T>::Set_Init(int(*match)(const T *key1, const T *key2),
+	void(*destroy)(T *data))
 {
 	this->match = match;
 	this->destroy = destroy;
 	return;
 }
 
-int CSet::Set_Insert(const void *data)
+template<class T>
+int CSet_Template<T>::Set_Insert(const T *data)
 {
 	if (this->Set_is_Member(data))
 		return true;
@@ -35,7 +67,8 @@ int CSet::Set_Insert(const void *data)
 	return List_Ins_Next(this->List_Tail(), data);
 }
 
-int CSet::Set_Remove(void **data)
+template<class T>
+int CSet_Template<T>::Set_Remove(T **data)
 {
 	ListElmt *member;
 	ListElmt *prev = NULL;
@@ -55,10 +88,11 @@ int CSet::Set_Remove(void **data)
 	return this->List_Rem_Next(prev, data);
 }
 
-int CSet::Set_Union(const CSet *set1, const CSet *set2)
+template<class T>
+int CSet_Template<T>::Set_Union(const CSet_Template *set1, const CSet_Template *set2)
 {
 	ListElmt *member;
-	void     *data;
+	T        *data;
 
 	this->Set_Init(set1->match, set1->destroy);
 
@@ -93,10 +127,11 @@ int CSet::Set_Union(const CSet *set1, const CSet *set2)
 	return 0;
 }
 
-int CSet::Set_Intersection(const CSet *set1, const CSet *set2)
+template<class T>
+int CSet_Template<T>::Set_Intersection(const CSet_Template *set1, const CSet_Template *set2)
 {
 	ListElmt *member;
-	void     *data;
+	T        *data;
 
 	this->Set_Init(set1->match, set1->destroy);
 
@@ -116,10 +151,12 @@ int CSet::Set_Intersection(const CSet *set1, const CSet *set2)
 
 	return 0;
 }
-int CSet::Set_Difference(const CSet *set1, const CSet *set2)
+
+template<class T>
+int CSet_Template<T>::Set_Difference(const CSet_Template *set1, const CSet_Template *set2)
 {
 	ListElmt *member;
-	void     *data;
+	T        *data;
 
 	this->Set_Init(set1->match, set1->destroy);
 
@@ -140,7 +177,8 @@ int CSet::Set_Difference(const CSet *set1, const CSet *set2)
 	return 0;
 }
 
-int CSet::Set_is_Member(const void *data) const
+template<class T>
+int CSet_Template<T>::Set_is_Member(const T *data) const
 {
 	ListElmt *member;
 
@@ -153,7 +191,8 @@ int CSet::Set_is_Member(const void *data) const
 	return false;
 }
 
-int CSet::Set_is_Subset(const CSet *set)
+template<class T>
+int CSet_Template<T>::Set_is_Subset(const CSet_Template *set)
 {
 	ListElmt *member;
 
@@ -169,11 +208,15 @@ int CSet::Set_is_Subset(const CSet *set)
 	return true;
 }
 
+template<class T>
 //当集合大小相同，且是另一个集合子集，则两集合必相同
-int CSet::Set_is_Equal(const CSet *set)
+int CSet_Template<T>::Set_is_Equal(const CSet_Template *set)
 {
 	if (this->Set_Size() != set->Set_Size())
 		return false;
 
 	return this->Set_is_Subset(set);
 }
+
+
+#endif
