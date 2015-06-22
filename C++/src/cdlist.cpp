@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cdlist.h"
+#include "..\h\cdlist.h"
 
 CDoubleList::CDoubleList()
 {

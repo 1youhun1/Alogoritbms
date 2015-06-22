@@ -1,8 +1,8 @@
 /*cqueue.cpp*/
 #include <stdlib.h>
 
-#include "clist.h"
-#include "cqueue.h"
+#include "..\h\clist.h"
+#include "..\h\cqueue.h"
 
 
 CQueue::CQueue()

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cchtbl.h"
+#include "..\h\cchtbl.h"
 
 CCHTbl::CCHTbl()
 {

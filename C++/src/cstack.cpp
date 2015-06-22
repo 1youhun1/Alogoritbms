@@ -1,8 +1,8 @@
 /*cstack.cpp*/
 #include <stdlib.h>
 
-#include "clist.h"
-#include "cstack.h"
+#include "..\h\clist.h"
+#include "..\h\cstack.h"
 
 
 CStack::CStack()

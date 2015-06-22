@@ -67,12 +67,12 @@ void Clist_Template<T>::List_Init(void(*destroy)(T *data))
 template<class T>
 void Clist_Template<T>::List_Destroy()
 {
-	void *data;
+	T *data;
 
 	//删除每一个元素
 	while (this->List_Size() > 0)
 	{
-		if (0 == List_Rem_Next(NULL, (void **)&data) &&
+		if (0 == List_Rem_Next(NULL, (T **)&data) &&
 			(NULL != this->destroy))
 		{
 			this->destroy(data);

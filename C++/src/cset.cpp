@@ -1,8 +1,8 @@
 /*cset.cpp*/
 #include <stdlib.h>
 #include <windows.h>
-#include "clist.h"
-#include "cset.h"
+#include "..\h\clist.h"
+#include "..\h\cset.h"
 
 
 CSet::CSet()
