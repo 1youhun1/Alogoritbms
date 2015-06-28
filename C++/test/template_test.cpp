@@ -9,6 +9,7 @@
 #include "..\h\cset_template.h"
 #include "..\h\cchtbl_template.h"
 #include "..\h\cbitree_template.h"
+#include "..\h\cheap_template.h"
 
 #include "template_test.h"
 
