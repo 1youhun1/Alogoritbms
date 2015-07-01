@@ -17,7 +17,7 @@ public:
 	int HeapSize()const { return this->size; }
 	int(*compare)(const void *key1, const void *key2);
 	void(*destroy)(void *data);
-private:
+protected:
 	int size;
 	void **tree;
 };
