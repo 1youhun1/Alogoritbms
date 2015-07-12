@@ -12,9 +12,9 @@ public:
 	~CQueue();
 
 public:
-	int Queue_Enqueue(const void *data);
-	int Queue_Dequeue(void **data);
-	void* Queue_Peek() { return (this->head == NULL ? NULL : this->head->data); }
+	int QueueEnqueue(const void *data);
+	int QueueDequeue(void **data);
+	void* QueuePeek() { return (this->head == NULL ? NULL : this->head->data); }
 };
 
 #endif

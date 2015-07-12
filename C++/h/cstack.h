@@ -12,9 +12,9 @@ public:
 	~CStack();
 
 public:
-	int Stack_Push(const void *data);
-	int Stack_Pop(void **data);
-	void* Stack_Peek() {
+	int StackPush(const void *data);
+	int StackPop(void **data);
+	void* StackPeek() {
 		(this->head == NULL ? NULL : this->head->data);
 	}
 

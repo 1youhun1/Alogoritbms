@@ -13,24 +13,23 @@ public:
 	~CSet_Template();
 
 public:
-	void Set_Init(int(*match)(const T *key1, const T *key2),
+	void SetInit(int(*match)(const T *key1, const T *key2),
 		void(*destroy)(T *data));
 
-	int Set_Insert(const T *data);
-	int Set_Remove(T **data);
-	int Set_Union(const CSet_Template *set1, const CSet_Template *set2); //求并集
-	int Set_Intersection(const CSet_Template *set1, const CSet_Template *set2); //求交集
-	int Set_Difference(const CSet_Template *set1, const CSet_Template *set2); //求差集	
+	int SetInsert(const T *data);
+	int SetRemove(T **data);
+	int SetUnion(const CSet_Template *set1, const CSet_Template *set2); //求并集
+	int SetIntersection(const CSet_Template *set1, const CSet_Template *set2); //求交集
+	int SetDifference(const CSet_Template *set1, const CSet_Template *set2); //求差集	
 
 public:
-	int Set_is_Subset(const CSet_Template *set);
-	int Set_is_Equal(const CSet_Template *set);
-	int Set_is_Member(const T *data) const;
+	int SetIsSubset(const CSet_Template *set);
+	int SetIsEqual(const CSet_Template *set);
+	int SetIsMember(const T *data) const;
 
 public:
-	int Set_Size() const { return this->size; }
-	void Set_Destroy() { this->List_Destroy(); }
-
+	int SetSize() const { return this->size; }
+	void SetDestroy() { this->ListDestroy(); }
 };
 
 template<class T>
@@ -50,7 +49,7 @@ CSet_Template<T>::~CSet_Template()
 }
 
 template<class T>
-void CSet_Template<T>::Set_Init(int(*match)(const T *key1, const T *key2),
+void CSet_Template<T>::SetInit(int(*match)(const T *key1, const T *key2),
 	void(*destroy)(T *data))
 {
 	this->match = match;
@@ -59,22 +58,22 @@ void CSet_Template<T>::Set_Init(int(*match)(const T *key1, const T *key2),
 }
 
 template<class T>
-int CSet_Template<T>::Set_Insert(const T *data)
+int CSet_Template<T>::SetInsert(const T *data)
 {
-	if (this->Set_is_Member(data))
+	if (this->SetIsMember(data))
 		return true;
 
-	return List_Ins_Next(this->List_Tail(), data);
+	return ListInsertNext(this->ListTail(), data);
 }
 
 template<class T>
-int CSet_Template<T>::Set_Remove(T **data)
+int CSet_Template<T>::SetRemove(T **data)
 {
 	ListElmt *member;
 	ListElmt *prev = NULL;
 
 	/*查找需删除的member*/
-	for (member = this->List_Head(); member != NULL; member = member->next)
+	for (member = this->ListHead(); member != NULL; member = member->next)
 	{
 		if (this->match(*data, member->data))
 			break;
@@ -85,24 +84,24 @@ int CSet_Template<T>::Set_Remove(T **data)
 	if (NULL == member)
 		return -1;
 
-	return this->List_Rem_Next(prev, data);
+	return this->ListRemoveNext(prev, data);
 }
 
 template<class T>
-int CSet_Template<T>::Set_Union(const CSet_Template *set1, const CSet_Template *set2)
+int CSet_Template<T>::SetUnion(const CSet_Template *set1, const CSet_Template *set2)
 {
 	ListElmt *member;
 	T        *data;
 
-	this->Set_Init(set1->match, set1->destroy);
+	this->SetInit(set1->match, set1->destroy);
 
 	/*先将Set1中元素拷贝到Setu里*/
 	for (member = set1->List_Head(); member != NULL; member = member->next)
 	{
 		data = member->data;
-		if (0 != this->List_Ins_Next(this->List_Tail(), data))
+		if (0 != this->ListInsertNext(this->ListTail(), data))
 		{
-			this->Set_Destroy();
+			this->SetDestroy();
 			return -1;
 		}
 	}
@@ -117,9 +116,9 @@ int CSet_Template<T>::Set_Union(const CSet_Template *set1, const CSet_Template *
 		else
 		{
 			data = member->data;
-			if (0 != this->List_Ins_Next(this->List_Tail(), data))
+			if (0 != this->ListInsertNext(this->ListTail(), data))
 			{
-				this->Set_Destroy();
+				this->SetDestroy();
 				return -1;
 			}
 		}
@@ -128,12 +127,12 @@ int CSet_Template<T>::Set_Union(const CSet_Template *set1, const CSet_Template *
 }
 
 template<class T>
-int CSet_Template<T>::Set_Intersection(const CSet_Template *set1, const CSet_Template *set2)
+int CSet_Template<T>::SetIntersection(const CSet_Template *set1, const CSet_Template *set2)
 {
 	ListElmt *member;
 	T        *data;
 
-	this->Set_Init(set1->match, set1->destroy);
+	this->SetInit(set1->match, set1->destroy);
 
 	/* 同时存在两个集合的元素才插入到Seti */
 	for (member = set1->List_Head(); member != NULL; member = member->next)
@@ -141,9 +140,9 @@ int CSet_Template<T>::Set_Intersection(const CSet_Template *set1, const CSet_Tem
 		if (set2->Set_is_Member(member->data))
 		{
 			data = member->data;
-			if (0 != this->List_Ins_Next(this->List_Tail(), data))
+			if (0 != this->ListInsertNext(this->ListTail(), data))
 			{
-				this->Set_Destroy();
+				this->SetDestroy();
 				return -1;
 			}
 		}
@@ -153,12 +152,12 @@ int CSet_Template<T>::Set_Intersection(const CSet_Template *set1, const CSet_Tem
 }
 
 template<class T>
-int CSet_Template<T>::Set_Difference(const CSet_Template *set1, const CSet_Template *set2)
+int CSet_Template<T>::SetDifference(const CSet_Template *set1, const CSet_Template *set2)
 {
 	ListElmt *member;
 	T        *data;
 
-	this->Set_Init(set1->match, set1->destroy);
+	this->SetInit(set1->match, set1->destroy);
 
 	/* 存在set1，但不存在Set2的元素才插入Setd */
 	for (member = set1->List_Head(); member != NULL; member = member->next)
@@ -166,9 +165,9 @@ int CSet_Template<T>::Set_Difference(const CSet_Template *set1, const CSet_Templ
 		if (!set2->Set_is_Member(member->data))
 		{
 			data = member->data;
-			if (0 != this->List_Ins_Next(this->List_Tail(), data))
+			if (0 != this->ListInsertNext(this->ListTail(), data))
 			{
-				this->Set_Destroy();
+				this->SetDestroy();
 				return -1;
 			}
 		}
@@ -178,11 +177,11 @@ int CSet_Template<T>::Set_Difference(const CSet_Template *set1, const CSet_Templ
 }
 
 template<class T>
-int CSet_Template<T>::Set_is_Member(const T *data) const
+int CSet_Template<T>::SetIsMember(const T *data) const
 {
 	ListElmt *member;
 
-	for (member = this->List_Head(); member != NULL; member = member->next)
+	for (member = this->ListHead(); member != NULL; member = member->next)
 	{
 		if (this->match(data, member->data))
 			return true;
@@ -192,12 +191,12 @@ int CSet_Template<T>::Set_is_Member(const T *data) const
 }
 
 template<class T>
-int CSet_Template<T>::Set_is_Subset(const CSet_Template *set)
+int CSet_Template<T>::SetIsSubset(const CSet_Template *set)
 {
 	ListElmt *member;
 
 	/*set1所有元素必须都要在set2中才是子集*/
-	for (member = this->List_Head(); member != NULL; member = member->next)
+	for (member = this->ListHead(); member != NULL; member = member->next)
 	{
 		if (!set->Set_is_Member(member->data))
 		{
@@ -210,12 +209,12 @@ int CSet_Template<T>::Set_is_Subset(const CSet_Template *set)
 
 template<class T>
 //当集合大小相同，且是另一个集合子集，则两集合必相同
-int CSet_Template<T>::Set_is_Equal(const CSet_Template *set)
+int CSet_Template<T>::SetIsEqual(const CSet_Template *set)
 {
-	if (this->Set_Size() != set->Set_Size())
+	if (this->SetSize() != set->Set_Size())
 		return false;
 
-	return this->Set_is_Subset(set);
+	return this->SetIsSubset(set);
 }
 
 

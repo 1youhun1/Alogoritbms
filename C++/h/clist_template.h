@@ -22,22 +22,23 @@ private:
 public:
 	Clist_Template(void);
 	~Clist_Template(void);
-	int List_Size(void) { return size; }
-	ListNode<T> *List_Head() { return head; }
-	ListNode<T> *List_Tail() { return tail; }
-	bool List_is_Head(ListNode<T> *element) {
+	int ListSize(void) { return size; }
+	ListNode<T> *ListHead() { return head; }
+	ListNode<T> *ListTail() { return tail; }
+	bool ListIsHead(ListNode<T> *element) {
 		return ((element) == head ? true : false);
 	}
-	bool List_is_Tail(ListNode<T> *element) {
+	bool ListIsTail(ListNode<T> *element) {
 		return ((element)->next == NULL ? true : false);
 	}
 
+public:
 	int(*match)(const T *key1, const T *key2);
 	void(*destroy)(T *data);
-	void List_Init(void(*destroy)(T *data));
-	void List_Destroy(void);
-	int List_Ins_Next(ListNode<T> *element, const T *data);
-	int List_Rem_Next(ListNode<T> *element, T **data);
+	void ListInit(void(*destroy)(T *data));
+	void ListDestroy(void);
+	int ListInsertNext(ListNode<T> *element, const T *data);
+	int ListRemoveNext(ListNode<T> *element, T **data);
 
 };
 
@@ -58,21 +59,21 @@ Clist_Template<T>::~Clist_Template()
 }
 
 template<class T>
-void Clist_Template<T>::List_Init(void(*destroy)(T *data))
+void Clist_Template<T>::ListInit(void(*destroy)(T *data))
 {
 	this->destroy = destroy;
 	return;
 }
 
 template<class T>
-void Clist_Template<T>::List_Destroy()
+void Clist_Template<T>::ListDestroy()
 {
 	T *data;
 
 	//É¾³ýÃ¿Ò»¸öÔªËØ
-	while (this->List_Size() > 0)
+	while (this->ListSize() > 0)
 	{
-		if (0 == List_Rem_Next(NULL, (T **)&data) &&
+		if (0 == ListRemoveNext(NULL, (T **)&data) &&
 			(NULL != this->destroy))
 		{
 			this->destroy(data);
@@ -83,7 +84,7 @@ void Clist_Template<T>::List_Destroy()
 }
 
 template<class T>
-int Clist_Template<T>::List_Ins_Next(ListNode<T> *element, const T *data)
+int Clist_Template<T>::ListInsertNext(ListNode<T> *element, const T *data)
 {
 	ListNode<T> *new_element = new ListNode<T>;
 
@@ -91,7 +92,7 @@ int Clist_Template<T>::List_Ins_Next(ListNode<T> *element, const T *data)
 	if (NULL == element)
 	{
 		/*Ê×½Úµã²åÈë*/
-		if (0 == this->List_Size())
+		if (0 == this->ListSize())
 		{
 			this->tail = new_element; //Î²½Úµã=Ê×½Úµã
 		}
@@ -116,11 +117,11 @@ int Clist_Template<T>::List_Ins_Next(ListNode<T> *element, const T *data)
 
 template<class T>
 /*Ã»ÓÐÖ¸ÏòÇ°Çý½ÚµãµÄÖ¸Õë£¬ÎªÁË´¦Àí·½±ãÉ¾³ýnextÔªËØ*/
-int Clist_Template<T>::List_Rem_Next(ListNode<T> *element, T **data/*ÔÝ´æ´ýÊÍ·ÅÔªËØ*/)
+int Clist_Template<T>::ListRemoveNext(ListNode<T> *element, T **data/*ÔÝ´æ´ýÊÍ·ÅÔªËØ*/)
 {
 	ListNode<T> *old_element;
 
-	if (0 == this->List_Size())
+	if (0 == this->ListSize())
 	{
 		return -1;
 	}
@@ -131,7 +132,7 @@ int Clist_Template<T>::List_Rem_Next(ListNode<T> *element, T **data/*ÔÝ´æ´ýÊÍ·ÅÔ
 		old_element = this->head;
 		this->head = this->head->next;
 
-		if (1 == this->List_Size())//Èç¹ûÊÇ×îºóÒ»¸öÔªËØ£¬Î²½ÚµãÖÃ¿Õ
+		if (1 == this->ListSize())//Èç¹ûÊÇ×îºóÒ»¸öÔªËØ£¬Î²½ÚµãÖÃ¿Õ
 		{
 			this->tail = NULL;
 		}

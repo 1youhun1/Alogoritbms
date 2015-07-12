@@ -16,7 +16,7 @@ CCHTbl::~CCHTbl()
 
 }
 
-int  CCHTbl::Chtbl_Init(int buckets, int(*h)(const void *key),
+int  CCHTbl::ChtblInit(int buckets, int(*h)(const void *key),
 	int (*match)(const void *key1, const void *key2), void(*destroy)(void *data))
 {
 	int i;
@@ -30,7 +30,7 @@ int  CCHTbl::Chtbl_Init(int buckets, int(*h)(const void *key),
 	/* 初始化哈希链的每个桶 */
 	for (i = 0; i < this->buckets; i++)
 	{
-		this->table[i].List_Init(destroy);
+		this->table[i].ListInit(destroy);
 	}
 	//求hash值的函数
 	this->h = h;
@@ -41,14 +41,14 @@ int  CCHTbl::Chtbl_Init(int buckets, int(*h)(const void *key),
 	return 0;
 }
 
-void CCHTbl::Chtbl_Destroy()
+void CCHTbl::ChtblDestroy()
 {
 	int i;
 
 	//销毁每个桶存储的链表
 	for (i = 0; i < this->buckets; i++)
 	{
-		this->table[i].List_Destroy();
+		this->table[i].ListDestroy();
 	}
 
 	//释放存储每个桶的数组的内存
@@ -58,7 +58,7 @@ void CCHTbl::Chtbl_Destroy()
 	return;
 }
 
-int  CCHTbl::Chtbl_Insert(const void *data)
+int  CCHTbl::ChtblInsert(const void *data)
 {
 	void *temp = NULL;
 	int  bucket = 0;
@@ -66,20 +66,20 @@ int  CCHTbl::Chtbl_Insert(const void *data)
 
 	/* 如果数据已存在，则返回*/
 	temp = (void *)data;
-	if (0 == this->Chtbl_Lookup(&temp))
+	if (0 == this->ChtblLookup(&temp))
 		return 0;
 
 	//计算hash值
 	bucket = this->h(data) % this->buckets;
 
 	//将数据插入hash值链的链头
-	if (0 == (result = this->table[bucket].List_Ins_Next(NULL, data)))
+	if (0 == (result = this->table[bucket].ListInsertNext(NULL, data)))
 		this->size++;
 
 	return result;
 }
 
-int  CCHTbl::Chtbl_Remove(void **data)
+int  CCHTbl::ChtblRemove(void **data)
 {
 	ListElmt *element = NULL;
 	ListElmt *prev = NULL;  //暂存前一项元素的内容，便于释放list
@@ -87,14 +87,14 @@ int  CCHTbl::Chtbl_Remove(void **data)
 	int bucket = 0;
 
 	bucket = this->h(*data) % this->buckets;
-	start_element = this->table[bucket].List_Head();
+	start_element = this->table[bucket].ListHead();
 
 	/* 在桶里查找数据 */
 	for (element = start_element; element != NULL; element = element->next)
 	{
 		if (this->match(*data, element->data))
 		{
-			if (0 == this->table[bucket].List_Rem_Next(prev, data))
+			if (0 == this->table[bucket].ListRemoveNext(prev, data))
 			{
 				this->size--;
 				return 0;
@@ -111,7 +111,7 @@ int  CCHTbl::Chtbl_Remove(void **data)
 	return -1;
 }
 
-int  CCHTbl::Chtbl_Lookup(void **data)
+int  CCHTbl::ChtblLookup(void **data)
 {
 	ListElmt *element = NULL;
 	ListElmt *start_element = NULL;
@@ -119,7 +119,7 @@ int  CCHTbl::Chtbl_Lookup(void **data)
 
 	//计算所在桶的位置
 	bucket = this->h(*data) % this->buckets;
-	start_element = this->table[bucket].List_Head();
+	start_element = this->table[bucket].ListHead();
 
 	/* 在桶里查找数据 */
 	for (element = start_element; element != NULL; element = element->next)

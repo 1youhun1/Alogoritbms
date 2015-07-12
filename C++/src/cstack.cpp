@@ -13,14 +13,14 @@ CStack::~CStack()
 {
 }
 
-int CStack::Stack_Push(const void *data)
+int CStack::StackPush(const void *data)
 {
 	//先进：插入表头
-	return this->List_Ins_Next(NULL, data);
+	return this->ListInsertNext(NULL, data);
 }
 
-int CStack::Stack_Pop(void **data)
+int CStack::StackPop(void **data)
 {
 	//先出：删除表头
-	return this->List_Rem_Next(NULL, data);
+	return this->ListRemoveNext(NULL, data);
 }

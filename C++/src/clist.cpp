@@ -18,20 +18,20 @@ Clist::~Clist()
 
 }
 
-void Clist::List_Init(void(*destroy)(void *data))
+void Clist::ListInit(void(*destroy)(void *data))
 {
 	this->destroy = destroy;
 	return;
 }
 
-void Clist::List_Destroy()
+void Clist::ListDestroy()
 {
 	void *data;
 
 	//删除每一个元素
-	while (this->List_Size() > 0)
+	while (this->ListSize() > 0)
 	{
-		if (0 == List_Rem_Next(NULL, (void **)&data) &&
+		if (0 == ListRemoveNext(NULL, (void **)&data) &&
 			(NULL != this->destroy))
 		{
 			this->destroy(data);
@@ -41,7 +41,7 @@ void Clist::List_Destroy()
 	return;
 }
 
-int Clist::List_Ins_Next(ListElmt *element, const void *data)
+int Clist::ListInsertNext(ListElmt *element, const void *data)
 {
 	ListElmt *new_element = new ListElmt{ 0 };
 
@@ -49,7 +49,7 @@ int Clist::List_Ins_Next(ListElmt *element, const void *data)
 	if (NULL == element)
 	{
 		/*首节点插入*/
-		if (0 == this->List_Size())
+		if (0 == this->ListSize())
 		{
 			this->tail = new_element; //尾节点=首节点
 		}
@@ -73,11 +73,11 @@ int Clist::List_Ins_Next(ListElmt *element, const void *data)
 }
 
 /*没有指向前驱节点的指针，为了处理方便删除next元素*/
-int Clist::List_Rem_Next(ListElmt *element, void **data/*暂存待释放元素*/)
+int Clist::ListRemoveNext(ListElmt *element, void **data/*暂存待释放元素*/)
 {
 	ListElmt *old_element;
 
-	if (0 == this->List_Size())
+	if (0 == this->ListSize())
 	{
 		return -1;
 	}
@@ -88,7 +88,7 @@ int Clist::List_Rem_Next(ListElmt *element, void **data/*暂存待释放元素*/)
 		old_element = this->head;
 		this->head = this->head->next;
 
-		if (1 == this->List_Size())//如果是最后一个元素，尾节点置空
+		if (1 == this->ListSize())//如果是最后一个元素，尾节点置空
 		{
 			this->tail = NULL;
 		}

@@ -23,20 +23,20 @@ void Test_clist_template()
 	UINT32 b = 10;
 	UINT32 *c = NULL;
 	Clist_Template<UINT32> list;
-	list.List_Init(NULL);
+	list.ListInit(NULL);
 
-	list.List_Ins_Next(NULL, &a);
-	list.List_Ins_Next(list.List_Head(), &b);
-	CHECK_CONDITION(*(list.List_Tail()->data) == b);
-	CHECK_CONDITION(list.List_Size() == 2);
+	list.ListInsertNext(NULL, &a);
+	list.ListInsertNext(list.ListHead(), &b);
+	CHECK_CONDITION(*(list.ListTail()->data) == b);
+	CHECK_CONDITION(list.ListSize() == 2);
 
-	list.List_Rem_Next(list.List_Head(), &c);
-	CHECK_CONDITION(*(list.List_Tail()->data) == a);
+	list.ListRemoveNext(list.ListHead(), &c);
+	CHECK_CONDITION(*(list.ListTail()->data) == a);
 	CHECK_CONDITION(*c == b);
-	CHECK_CONDITION(list.List_Size() == 1);
+	CHECK_CONDITION(list.ListSize() == 1);
 
-	list.List_Destroy();
-	CHECK_CONDITION(list.List_Size() == 0);
+	list.ListDestroy();
+	CHECK_CONDITION(list.ListSize() == 0);
 	return;
 }
 
@@ -55,7 +55,7 @@ void Test_cdlist_template()
 {
 	CdlistTestType *destroy_element = NULL;
 	CDoubleList_Template<CdlistTestType> dlist;
-	dlist.DoubleList_Init(&destroy);
+	dlist.DoubleListInit(&destroy);
 
 	CdlistTestType *a = new CdlistTestType{ 0 };
 	a->ip = 0x01010101;
@@ -69,27 +69,27 @@ void Test_cdlist_template()
 	c->ip = 0x03030303;
 	c->port_id = 3;
 
-	dlist.DoubleList_Ins_Next(NULL, a);
-	CHECK_CONDITION(dlist.DoubleList_Size() == 1);
+	dlist.DoubleListInsertNext(NULL, a);
+	CHECK_CONDITION(dlist.DoubleListSize() == 1);
 
-	dlist.DoubleList_Ins_Next(dlist.DoubleList_Head(), b);
-	CHECK_CONDITION(dlist.DoubleList_Size() == 2);
-	CHECK_CONDITION(dlist.DoubleList_Tail()->data == b);
+	dlist.DoubleListInsertNext(dlist.DoubleListHead(), b);
+	CHECK_CONDITION(dlist.DoubleListSize() == 2);
+	CHECK_CONDITION(dlist.DoubleListTail()->data == b);
 
-	dlist.DoubleList_Ins_Prev(dlist.DoubleList_Tail(), c);
-	CHECK_CONDITION(dlist.DoubleList_Size() == 3);
-	CHECK_CONDITION(dlist.DoubleList_Tail()->prev->data == c);
+	dlist.DoubleListInsertPrev(dlist.DoubleListTail(), c);
+	CHECK_CONDITION(dlist.DoubleListSize() == 3);
+	CHECK_CONDITION(dlist.DoubleListTail()->prev->data == c);
 
-	dlist.DoubleList_Remove(dlist.DoubleList_Tail(), &destroy_element);
-	CHECK_CONDITION(dlist.DoubleList_Size() == 2);
+	dlist.DoubleListRemove(dlist.DoubleListTail(), &destroy_element);
+	CHECK_CONDITION(dlist.DoubleListSize() == 2);
 	CHECK_CONDITION(destroy_element->ip == b->ip);
 	CHECK_CONDITION(destroy_element->port_id == b->port_id);
 	delete destroy_element;
 	destroy_element = NULL;
 
-	dlist.DoubleList_Destroy();
-	CHECK_CONDITION(dlist.DoubleList_Size() == 0);
-	CHECK_CONDITION(dlist.DoubleList_Tail() == NULL);
+	dlist.DoubleListDestroy();
+	CHECK_CONDITION(dlist.DoubleListSize() == 0);
+	CHECK_CONDITION(dlist.DoubleListTail() == NULL);
 	return;
 }
 
@@ -100,21 +100,21 @@ void Test_cqueue_template()
 	UINT32 *c = NULL;
 
 	CQueue_Template<UINT32> queue;
-	queue.List_Init(NULL);
+	queue.ListInit(NULL);
 
-	queue.Queue_Enqueue(&a);
-	CHECK_CONDITION(*(queue.List_Head()->data) == a);
-	CHECK_CONDITION(queue.List_Size() == 1);
+	queue.QueueEnqueue(&a);
+	CHECK_CONDITION(*(queue.ListHead()->data) == a);
+	CHECK_CONDITION(queue.ListSize() == 1);
 
-	queue.Queue_Enqueue(&b);
-	CHECK_CONDITION(queue.List_Size() == 2);
+	queue.QueueEnqueue(&b);
+	CHECK_CONDITION(queue.ListSize() == 2);
 
-	queue.Queue_Dequeue(&c);
-	CHECK_CONDITION(queue.List_Size() == 1);
+	queue.QueueDequeue(&c);
+	CHECK_CONDITION(queue.ListSize() == 1);
 	CHECK_CONDITION(*c == a); //先进先出，获取的是a
-	CHECK_CONDITION(*(queue.List_Tail()->data) == b);
+	CHECK_CONDITION(*(queue.ListTail()->data) == b);
 
-	queue.List_Destroy();
+	queue.ListDestroy();
 	return;
 }
 
@@ -125,21 +125,21 @@ void Test_cstack_template()
 	UINT32 *c = NULL;
 
 	CStack_Template<UINT32> stack;
-	stack.List_Init(NULL);
+	stack.ListInit(NULL);
 
-	stack.Stack_Push(&a);
-	CHECK_CONDITION(*(stack.List_Head()->data) == a);
-	CHECK_CONDITION(stack.List_Size() == 1);
+	stack.StackPush(&a);
+	CHECK_CONDITION(*(stack.ListHead()->data) == a);
+	CHECK_CONDITION(stack.ListSize() == 1);
 
-	stack.Stack_Push(&b);
-	CHECK_CONDITION(stack.List_Size() == 2);
+	stack.StackPush(&b);
+	CHECK_CONDITION(stack.ListSize() == 2);
 
-	stack.Stack_Pop(&c);
-	CHECK_CONDITION(stack.List_Size() == 1);
+	stack.StackPop(&c);
+	CHECK_CONDITION(stack.ListSize() == 1);
 	CHECK_CONDITION(*c == b); //先进h后出，获取的是b
-	CHECK_CONDITION(*(stack.List_Tail()->data) == a);
+	CHECK_CONDITION(*(stack.ListTail()->data) == a);
 
-	stack.List_Destroy();
+	stack.ListDestroy();
 	return;
 }
 

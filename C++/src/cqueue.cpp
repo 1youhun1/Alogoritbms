@@ -13,14 +13,14 @@ CQueue::~CQueue()
 {
 }
 
-int CQueue::Queue_Enqueue(const void *data)
+int CQueue::QueueEnqueue(const void *data)
 {
 	//先进后出：插入队尾
-	return this->List_Ins_Next(this->List_Tail(), data);
+	return this->ListInsertNext(this->ListTail(), data);
 }
 
-int CQueue::Queue_Dequeue(void **data)
+int CQueue::QueueDequeue(void **data)
 {
 	//先进后出：获取队头
-	return this->List_Rem_Next(NULL, data);
+	return this->ListRemoveNext(NULL, data);
 }

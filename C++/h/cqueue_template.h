@@ -12,9 +12,9 @@ public:
 	~CQueue_Template();
 
 public:
-	int Queue_Enqueue(const T *data);
-	int Queue_Dequeue(T **data);
-	T* Queue_Peek() { return (this->head == NULL ? NULL : this->head->data); }
+	int QueueEnqueue(const T *data);
+	int QueueDequeue(T **data);
+	T* QueuePeek() { return (this->head == NULL ? NULL : this->head->data); }
 };
 
 template<class T>
@@ -28,17 +28,17 @@ CQueue_Template<T>::~CQueue_Template()
 }
 
 template<class T>
-int CQueue_Template<T>::Queue_Enqueue(const T *data)
+int CQueue_Template<T>::QueueEnqueue(const T *data)
 {
 	//先进后出：插入队尾
-	return this->List_Ins_Next(this->List_Tail(), data);
+	return this->ListInsertNext(this->ListTail(), data);
 }
 
 template<class T>
-int CQueue_Template<T>::Queue_Dequeue(T **data)
+int CQueue_Template<T>::QueueDequeue(T **data)
 {
 	//先进后出：获取队头
-	return this->List_Rem_Next(NULL, data);
+	return this->ListRemoveNext(NULL, data);
 }
 
 

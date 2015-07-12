@@ -20,21 +20,21 @@ public:
 public:
 	int(*match)(const T *key1, const T *key2); //比较函数
 	void(*destroy)(T *data);    //删除节点内容
-	void DoubleList_Init(void(*destroy)(T *data));
-	void DoubleList_Destroy();
-	int DoubleList_Ins_Next(DListElmt<T> *element, const T *data);
-	int DoubleList_Ins_Prev(DListElmt<T> *element, const T *data);
-	int DoubleList_Remove(DListElmt<T> *element, T **data);
+	void DoubleListInit(void(*destroy)(T *data));
+	void DoubleListDestroy();
+	int DoubleListInsertNext(DListElmt<T> *element, const T *data);
+	int DoubleListInsertPrev(DListElmt<T> *element, const T *data);
+	int DoubleListRemove(DListElmt<T> *element, T **data);
 
 public:
-	int DoubleList_Size() const { return size; }
-	DListElmt<T>* DoubleList_Head() const { return head; }
-	DListElmt<T>* DoubleList_Tail() const { return tail; }
+	int DoubleListSize() const { return size; }
+	DListElmt<T>* DoubleListHead() const { return head; }
+	DListElmt<T>* DoubleListTail() const { return tail; }
 
-	bool DoubleList_is_Head(DListElmt<T> *element) {
+	bool DoubleListIsHead(DListElmt<T> *element) {
 		return ((element)->prev == NULL ? true : false);
 	}
-	bool DoubleList_is_Tail(DListElmt<T> *element) {
+	bool DoubleListIsTail(DListElmt<T> *element) {
 		return ((element)->next == NULL ? true : false);
 	}
 
@@ -61,20 +61,20 @@ CDoubleList_Template<T>::~CDoubleList_Template(void)
 }
 
 template<class T>
-void CDoubleList_Template<T>::DoubleList_Init(void(*destroy)(T *data))
+void CDoubleList_Template<T>::DoubleListInit(void(*destroy)(T *data))
 {
 	this->destroy = destroy;
 	return;
 }
 
 template<class T>
-void CDoubleList_Template<T>::DoubleList_Destroy()
+void CDoubleList_Template<T>::DoubleListDestroy()
 {
 	T *data;
 
-	while (this->DoubleList_Size() > 0)
+	while (this->DoubleListSize() > 0)
 	{
-		if (0 == DoubleList_Remove(this->DoubleList_Tail(), ((T **)&data))
+		if (0 == DoubleListRemove(this->DoubleListTail(), ((T **)&data))
 			&& NULL != this->destroy)
 		{
 			this->destroy(data);
@@ -86,10 +86,10 @@ void CDoubleList_Template<T>::DoubleList_Destroy()
 }
 
 template<class T>
-int CDoubleList_Template<T>::DoubleList_Ins_Next(DListElmt<T> *element, const T *data)
+int CDoubleList_Template<T>::DoubleListInsertNext(DListElmt<T> *element, const T *data)
 {
 	//只有list为NULL时才允许在空element后插入新元素
-	if (NULL == element && 0 != this->DoubleList_Size())
+	if (NULL == element && 0 != this->DoubleListSize())
 		return -1;
 
 	DListElmt<T> *new_element = new DListElmt<T>{ 0 };
@@ -98,7 +98,7 @@ int CDoubleList_Template<T>::DoubleList_Ins_Next(DListElmt<T> *element, const T 
 
 	new_element->data = (T *)data;
 
-	if (0 == this->DoubleList_Size())
+	if (0 == this->DoubleListSize())
 	{
 		this->head = new_element;
 		this->head->prev = NULL;
@@ -125,10 +125,10 @@ int CDoubleList_Template<T>::DoubleList_Ins_Next(DListElmt<T> *element, const T 
 }
 
 template<class T>
-int CDoubleList_Template<T>::DoubleList_Ins_Prev(DListElmt<T> *element, const T *data)
+int CDoubleList_Template<T>::DoubleListInsertPrev(DListElmt<T> *element, const T *data)
 {
 	//只有list为NULL时才允许在空element前插入新元素
-	if (NULL == element && 0 != this->DoubleList_Size())
+	if (NULL == element && 0 != this->DoubleListSize())
 		return -1;
 
 	DListElmt<T> *new_element = new DListElmt<T>{ 0 };
@@ -137,7 +137,7 @@ int CDoubleList_Template<T>::DoubleList_Ins_Prev(DListElmt<T> *element, const T 
 
 	new_element->data = (T *)data;
 
-	if (0 == this->DoubleList_Size())
+	if (0 == this->DoubleListSize())
 	{
 		this->head = new_element;
 		this->head->prev = NULL;
@@ -162,9 +162,9 @@ int CDoubleList_Template<T>::DoubleList_Ins_Prev(DListElmt<T> *element, const T 
 }
 
 template<class T>
-int CDoubleList_Template<T>::DoubleList_Remove(DListElmt<T> *element, T **data)
+int CDoubleList_Template<T>::DoubleListRemove(DListElmt<T> *element, T **data)
 {
-	if (NULL == element || 0 == this->DoubleList_Size())
+	if (NULL == element || 0 == this->DoubleListSize())
 		return -1;
 
 	*data = element->data;

@@ -18,19 +18,19 @@ CDoubleList::~CDoubleList()
 
 }
 
-void CDoubleList::DoubleList_Init(void(*destroy)(void *data))
+void CDoubleList::DoubleListInit(void(*destroy)(void *data))
 {
 	this->destroy = destroy;
 	return;
 }
 
-void CDoubleList::DoubleList_Destroy()
+void CDoubleList::DoubleListDestroy()
 {
 	void *data;
 
-	while (this->DoubleList_Size() > 0)
+	while (this->DoubleListSize() > 0)
 	{
-		if (0 == DoubleList_Remove(this->DoubleList_Tail(), ((void **)&data))
+		if (0 == DoubleListRemove(this->DoubleListTail(), ((void **)&data))
 			&& NULL != this->destroy)
 		{
 			this->destroy(data);
@@ -41,10 +41,10 @@ void CDoubleList::DoubleList_Destroy()
 	return;
 }
 
-int CDoubleList::DoubleList_Ins_Next(DListElmt *element, const void *data)
+int CDoubleList::DoubleListInsertNext(DListElmt *element, const void *data)
 {
 	//只有list为NULL时才允许在空element后插入新元素
-	if (NULL == element && 0 != this->DoubleList_Size())
+	if (NULL == element && 0 != this->DoubleListSize())
 		return -1;
 
 	DListElmt *new_element = new DListElmt{ 0 };
@@ -53,7 +53,7 @@ int CDoubleList::DoubleList_Ins_Next(DListElmt *element, const void *data)
 
 	new_element->data = (void *)data;
 
-	if (0 == this->DoubleList_Size())
+	if (0 == this->DoubleListSize())
 	{
 		this->head = new_element;
 		this->head->prev = NULL;
@@ -79,10 +79,10 @@ int CDoubleList::DoubleList_Ins_Next(DListElmt *element, const void *data)
 	return 0;
 }
 
-int CDoubleList::DoubleList_Ins_Prev(DListElmt *element, const void *data)
+int CDoubleList::DoubleListInsertPrev(DListElmt *element, const void *data)
 {
 	//只有list为NULL时才允许在空element前插入新元素
-	if (NULL == element && 0 != this->DoubleList_Size())
+	if (NULL == element && 0 != this->DoubleListSize())
 		return -1;
 
 	DListElmt *new_element = new DListElmt{ 0 };
@@ -91,7 +91,7 @@ int CDoubleList::DoubleList_Ins_Prev(DListElmt *element, const void *data)
 
 	new_element->data = (void *)data;
 
-	if (0 == this->DoubleList_Size())
+	if (0 == this->DoubleListSize())
 	{
 		this->head = new_element;
 		this->head->prev = NULL;
@@ -115,9 +115,9 @@ int CDoubleList::DoubleList_Ins_Prev(DListElmt *element, const void *data)
 	return 0;
 }
 
-int CDoubleList::DoubleList_Remove(DListElmt *element, void **data)
+int CDoubleList::DoubleListRemove(DListElmt *element, void **data)
 {
-	if (NULL == element || 0 == this->DoubleList_Size())
+	if (NULL == element || 0 == this->DoubleListSize())
 		return -1;
 
 	*data = element->data;

@@ -12,9 +12,9 @@ public:
 	~CStack_Template();
 
 public:
-	int Stack_Push(const T *data);
-	int Stack_Pop(T **data);
-	T* Stack_Peek() {
+	int StackPush(const T *data);
+	int StackPop(T **data);
+	T* StackPeek() {
 		return (this->head == NULL ? NULL : this->head->data);
 	}
 
@@ -31,17 +31,17 @@ CStack_Template<T>::~CStack_Template()
 }
 
 template<class T>
-int CStack_Template<T>::Stack_Push(const T *data)
+int CStack_Template<T>::StackPush(const T *data)
 {
 	//先进：插入表头
-	return this->List_Ins_Next(NULL, data);
+	return this->ListInsertNext(NULL, data);
 }
 
 template<class T>
-int CStack_Template<T>::Stack_Pop(T **data)
+int CStack_Template<T>::StackPop(T **data)
 {
 	//先出：删除表头
-	return this->List_Rem_Next(NULL, data);
+	return this->ListRemoveNext(NULL, data);
 }
 
 #endif

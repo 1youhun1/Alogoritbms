@@ -19,19 +19,19 @@ public:
 public:
 	int (*match)(const void *key1, const void *key2);
 	void (*destroy)(void *data);
-	void List_Init(void(*destroy)(void *data));
-	void List_Destroy(void);
-	int List_Ins_Next(ListElmt *element, const void *data);
-	int List_Rem_Next(ListElmt *element, void **data);
+	void ListInit(void(*destroy)(void *data));
+	void ListDestroy(void);
+	int ListInsertNext(ListElmt *element, const void *data);
+	int ListRemoveNext(ListElmt *element, void **data);
 
 public:
-	int List_Size(void) const { return size; }
-	ListElmt *List_Head() const { return head; }
-	ListElmt *List_Tail() const { return tail; }
-	bool List_is_Head(ListElmt *element) {
+	int ListSize(void) const { return size; }
+	ListElmt *ListHead() const { return head; }
+	ListElmt *ListTail() const { return tail; }
+	bool ListIsHead(ListElmt *element) {
 		return ((element) == head ? true : false);
 	}
-	bool List_is_Tail(ListElmt *element) {
+	bool ListIsTail(ListElmt *element) {
 		return ((element)->next == NULL ? true : false);
 	}
 
