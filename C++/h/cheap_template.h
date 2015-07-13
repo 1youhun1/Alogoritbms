@@ -27,7 +27,7 @@ public:
 	int(*compare)(const T *key1, const T *key2);
 	void(*destroy)(T *data);
 private:
-	int size;
+	size_t size;
 	void **tree;
 };
 

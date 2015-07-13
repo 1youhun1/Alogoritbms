@@ -17,7 +17,7 @@ class Clist_Template
 private:
 	ListNode<T> *head;
 	ListNode<T> *tail;
-	int size;
+	size_t size;
 
 public:
 	Clist_Template(void);

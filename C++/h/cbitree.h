@@ -42,7 +42,7 @@ public:
 	}
 
 protected:
-	int  size;	
+	size_t  size;
 	BiTreeNode *root;   //¸ù½áµã
 };
 

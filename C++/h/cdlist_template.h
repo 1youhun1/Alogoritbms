@@ -39,7 +39,7 @@ public:
 	}
 
 private:
-	int size;
+	size_t size;
 	DListElmt<T> *head;
 	DListElmt<T> *tail;
 };

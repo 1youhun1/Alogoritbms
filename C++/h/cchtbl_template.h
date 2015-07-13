@@ -28,7 +28,7 @@ public:
 	Clist_Template<T> *table;
 private:
 	int buckets;  //hash链分配桶的个数
-	int size;
+	size_t size;
 };
 
 template<class T>

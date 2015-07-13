@@ -38,7 +38,7 @@ public:
 protected:
 	ListElmt *head;
 	ListElmt *tail;
-	int size;
+	size_t size;
 };
 
 #endif
