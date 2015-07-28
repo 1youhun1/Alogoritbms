@@ -40,7 +40,9 @@ public:
 	bool BiTreeIsLeaf(BiTreeNode *node) const{
 		return (NULL == node->left && NULL == node->right);
 	}
-
+	BiTreeNode* BiTreeLeft(BiTreeNode *node) { return node->left; }
+	BiTreeNode* BiTreeRight(BiTreeNode *node) { return node->right; }
+	void * BiTreeData(BiTreeNode *node) { return node->data; }
 protected:
 	size_t  size;
 	BiTreeNode *root;   //¸ù½áµã

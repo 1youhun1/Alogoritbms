@@ -376,5 +376,5 @@ int BisTree_Remove(BisTree *tree, const void *data)
 
 int BisTree_Lookup(BisTree *tree, void **data)
 {
-	return Hide(tree, BiTree_Root(tree), data);
+	return Lookup(tree, BiTree_Root(tree), data);
 }
